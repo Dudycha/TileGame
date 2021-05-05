@@ -9,6 +9,9 @@ public abstract class UIObject {
     protected int width, height;
     protected Rectangle bounds;
     private boolean hovering = false;
+    private boolean selected = false;
+    private int selectedID = -1;
+
 
     public UIObject(int x, int y, int width, int height) {
         this.x = x;
@@ -55,11 +58,23 @@ public abstract class UIObject {
         this.y = y;
     }
 
+    public int getSelectedID() {
+        return selectedID;
+    }
+
+    public void setSelectedID(int selectedID) {
+        this.selectedID = selectedID;
+    }
 
     public boolean isHovering() {
         return hovering;
-
     }
 
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
+    public boolean isSelected() {
+        return selected;
+    }
 }

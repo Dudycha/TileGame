@@ -8,7 +8,6 @@ import cz.jandudycha.main.texture.Assets;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 
 public class World {
@@ -24,7 +23,7 @@ public class World {
     public World(KeyInput keyInput, RenderLayer renderLayer) {
         this.keyInput = keyInput;
         this.renderLayer = renderLayer;
-        mapEditor = new MapEditor(worldMap, keyInput, this,renderLayer);
+        mapEditor = new MapEditor(worldMap, keyInput, this, renderLayer);
         try {
             ResultSet rs = sql.displayWorld();
             while (rs.next()) {
@@ -87,6 +86,35 @@ public class World {
             positionInSQLData++;
             indexX = 0;
             indexY++;
+        }
+
+
+    }
+
+    public void saveMap() {
+        StringBuilder prepMap = new StringBuilder();
+
+        for (int i = 0; i < worldMap.length; i++) {
+            for (int j = 0; j < worldMap[0].length; j++) {
+                if (worldMap[i][j] > 99) {
+                    prepMap.append(worldMap[i][j]);
+                } else if (worldMap[i][j] > 9) {
+                    prepMap.append("0").append(worldMap[i][j]);
+                } else {
+                    prepMap.append("00").append(worldMap[i][j]);
+                }
+                if (j < worldMap[0].length - 1) {
+                    prepMap.append(",");
+                }
+            }
+            prepMap.append("\n");
+        }
+        try {
+            sql.saveMap(prepMap.toString());
+            System.out.println("MAP saved!");
+        } catch (Exception e) {
+            System.out.println("ERROR saving map");
+            e.printStackTrace();
         }
 
 

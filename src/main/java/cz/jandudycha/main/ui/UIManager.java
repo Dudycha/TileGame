@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class UIManager {
     private final ArrayList<UIObject> objects;
-
+    private int selectedID = 0;
 
     public UIManager() {
         objects = new ArrayList<>();
@@ -16,7 +16,9 @@ public class UIManager {
         for (UIObject o : objects) {
             o.update();
         }
+        checkForSelectedIds();
     }
+
 
     public void render(Graphics g) {
         for (UIObject o : objects) {
@@ -24,9 +26,19 @@ public class UIManager {
         }
     }
 
-    public void onMouseMove(int mouseX,int mouseY) {
+    private void checkForSelectedIds() {
         for (UIObject o : objects) {
-            o.onMouseMove(mouseX,mouseY);
+            if (o.getSelectedID() != -1) {
+                selectedID = o.getSelectedID();
+                o.setSelectedID(-1);
+            }
+        }
+
+    }
+
+    public void onMouseMove(int mouseX, int mouseY) {
+        for (UIObject o : objects) {
+            o.onMouseMove(mouseX, mouseY);
         }
     }
 
@@ -35,6 +47,10 @@ public class UIManager {
         for (UIObject o : objects) {
             o.onMouseRelease(e);
         }
+    }
+
+    public int getSelectedID() {
+        return selectedID;
     }
 
     public void addObject(UIObject o) {

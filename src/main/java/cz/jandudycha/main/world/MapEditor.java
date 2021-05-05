@@ -12,6 +12,8 @@ public class MapEditor {
     private int blockCoordinateX, blockCoordinateY;
     private final World world;
     private final RenderLayer renderLayer;
+    private int tileToInsert = 0;
+    private boolean outOfBounds = false;
 
 
     public MapEditor(int[][] worldMap, KeyInput keyInput, World world, RenderLayer renderLayer) {
@@ -23,21 +25,58 @@ public class MapEditor {
     }
 
     public void update() {
-        if (keyInput.getMouseX() < renderLayer.getWINDOW_WIDTH() - 300) {
-            blockCoordinateX = keyInput.getMouseX() / world.getTILE_WIDTH();
+        checkForOutOfBounds();
+
+
+        if (keyInput.isLeftMouse() && !outOfBounds) {
+            worldMap[blockCoordinateY][blockCoordinateX] = tileToInsert;
         }
-        if (keyInput.getMouseY() < renderLayer.getWINDOW_HEIGHT() - 30) {
-            blockCoordinateY = keyInput.getMouseY() / world.getTILE_HEIGHT();
+    }
+
+    private void checkForOutOfBounds() {
+        if (keyInput.getMouseX() < renderLayer.getWINDOW_WIDTH() - 290) {
+            blockCoordinateX = keyInput.getMouseX() / world.getTILE_WIDTH();
+        } else {
+            outOfBounds = true;
         }
 
-        if (keyInput.isLeftMouse()) {
-            worldMap[blockCoordinateY][blockCoordinateX] = 0;
+        if (keyInput.getMouseY() < renderLayer.getWINDOW_HEIGHT() - 10) {
+            blockCoordinateY = keyInput.getMouseY() / world.getTILE_HEIGHT();
+        } else {
+            outOfBounds = true;
+        }
+
+        if (keyInput.getMouseX() < 0) {
+            outOfBounds = true;
+            blockCoordinateX = 0;
+        }
+
+        if (keyInput.getMouseY() < 0) {
+            outOfBounds = true;
+            blockCoordinateY = 0;
+        }
+
+
+        if ((keyInput.getMouseX() < renderLayer.getWINDOW_WIDTH() - 300) &&
+                (keyInput.getMouseY() < renderLayer.getWINDOW_HEIGHT() - 10) &&
+                !(keyInput.getMouseX() < 0) && !(keyInput.getMouseY() < 0)) {
+            outOfBounds = false;
         }
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.ORANGE);
-        g.drawRect(blockCoordinateX * world.getTILE_WIDTH(), blockCoordinateY * world.getTILE_HEIGHT(), world.getTILE_WIDTH(), world.getTILE_HEIGHT());
+        if (!outOfBounds) {
+            g.setColor(Color.ORANGE);
+            g.drawRect(blockCoordinateX * world.getTILE_WIDTH(), blockCoordinateY * world.getTILE_HEIGHT(), world.getTILE_WIDTH(), world.getTILE_HEIGHT());
+        }
+    }
+
+    public int getTileToInsert() {
+        return tileToInsert;
+    }
+
+    public void setTileToInsert(int tileToInsert) {
+        this.tileToInsert = tileToInsert;
     }
 
     public int getblockCoordinateX() {

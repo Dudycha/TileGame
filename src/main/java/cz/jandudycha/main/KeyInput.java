@@ -93,7 +93,9 @@ public class KeyInput implements KeyListener, MouseListener, MouseMotionListener
         if (e.getButton() == 1) {
             leftMouse = false;
         }
-
+        if (uiManager != null && e.getButton() == 1) {
+            uiManager.onMouseRelease(e);
+        }
 
     }
 
