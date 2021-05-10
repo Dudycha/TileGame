@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 
 public class World {
-    private int[][] worldMap = new int[20][30];
+    private int[][] worldMap = new int[30][60];
     private final int TILE_WIDTH = 32;
     private final int TILE_HEIGHT = 32;
     private final SQLiteDatabase sql = new SQLiteDatabase();
@@ -19,6 +19,9 @@ public class World {
     private final KeyInput keyInput;
     private final MapEditor mapEditor;
     private final RenderLayer renderLayer;
+    private final GameCamera gameCamera;
+    private int xStart, xEnd, yStart, yEnd;
+
 
     public World(KeyInput keyInput, RenderLayer renderLayer) {
         this.keyInput = keyInput;
@@ -33,7 +36,7 @@ public class World {
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
-
+        gameCamera = new GameCamera(renderLayer, 100, 50);
         consoleLogWorld();
     }
 
@@ -56,12 +59,23 @@ public class World {
     }
 
     public void render(Graphics g) {
+        xStart = (int) Math.max(0, gameCamera.getxOffset() / TILE_WIDTH + 1); // leva strana
 
-        for (int i = 0; i < worldMap.length; i++) {
-            for (int j = 0; j < worldMap[0].length; j++) {
-                g.drawImage(Assets.tileTextures[worldMap[i][j]], j * TILE_WIDTH, i * TILE_HEIGHT, null);
+        xEnd = Math.min(worldMap[0].length, ((int) gameCamera.getxOffset() + renderLayer.getWINDOW_WIDTH() - 250) / TILE_WIDTH - 2);  // prava strana
+
+        yStart = (int) Math.max(0, gameCamera.getyOffset() / TILE_HEIGHT + 1); // top
+
+        yEnd = Math.min(worldMap.length, ((int) gameCamera.getyOffset() + renderLayer.getWINDOW_HEIGHT()) / TILE_HEIGHT - 2);
+
+
+
+        for (int i = yStart; i < yEnd; i++) {
+            for (int j = xStart; j < xEnd; j++) {
+                g.drawImage(Assets.tileTextures[worldMap[i][j]], (j * TILE_WIDTH) - (int) gameCamera.getxOffset(), i * TILE_HEIGHT - (int) gameCamera.getyOffset(), null);
             }
         }
+
+
         mapEditor.render(g);
     }
 
@@ -132,9 +146,30 @@ public class World {
         return mapEditor;
     }
 
+    public GameCamera getGameCamera() {
+        return gameCamera;
+    }
+
     public int[][] getWorldMap() {
         return worldMap;
     }
+
+    public int getxStart() {
+        return xStart;
+    }
+
+    public int getxEnd() {
+        return xEnd;
+    }
+
+    public int getyStart() {
+        return yStart;
+    }
+
+    public int getyEnd() {
+        return yEnd;
+    }
 }
+
 
 

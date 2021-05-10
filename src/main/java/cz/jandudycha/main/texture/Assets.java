@@ -9,18 +9,36 @@ public class Assets {
 
     public static Font myFont = new Font("myFont", Font.BOLD, 22);
 
-    public static BufferedImage[] tileTextures = new BufferedImage[50];
+    public static BufferedImage[] tileTextures = new BufferedImage[20];
     public static BufferedImage[] checkBox = new BufferedImage[4];
     public static BufferedImage[] saveBtn = new BufferedImage[2];
+
+    public static BufferedImage[] playerRight = new BufferedImage[4];
+    public static BufferedImage[] playerLeft = new BufferedImage[4];
 
     public static void init() {
         SpriteSheet tileSheet = new SpriteSheet(ImageLoader.loadImage("/textures/tileSheet.png"), 32, 32);
         SpriteSheet UISheet = new SpriteSheet(ImageLoader.loadImage("/textures/UISheet.png"), 32, 32);
+        SpriteSheet textureSheet = new SpriteSheet(ImageLoader.loadImage("/textures/textureSheet.png"), 32, 32);
+
 
         cropTiles(tileSheet);
         cropUI(UISheet);
+        cropTExtures(textureSheet);
 
 
+    }
+
+    private static void cropTExtures(SpriteSheet textureSheet) {
+        playerRight[0] = textureSheet.crop(0, 0);
+        playerRight[1] = textureSheet.crop(x, 0);
+        playerRight[2] = textureSheet.crop(x * 2, 0);
+        playerRight[3] = textureSheet.crop(x * 3, 0);
+
+        playerLeft[0] = textureSheet.crop(0, y);
+        playerLeft[0] = textureSheet.crop(x, y);
+        playerLeft[0] = textureSheet.crop(x * 2, y);
+        playerLeft[0] = textureSheet.crop(x * 3, y);
     }
 
     private static void cropTiles(SpriteSheet tileSheet) {

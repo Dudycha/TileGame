@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 public class KeyInput implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
-    private boolean left, right, space, leftMouse, reload, escape, bButton;
+    private boolean left, right, up, down, space, leftMouse, reload, escape, bButton;
     private int mouseX = 0, mouseY = 0;
     private boolean clicked = false;
     private UIManager uiManager;
@@ -17,13 +17,14 @@ public class KeyInput implements KeyListener, MouseListener, MouseMotionListener
     public KeyInput() {
 
     }
+
     public void setUIManager(UIManager uiManager) {
         this.uiManager = uiManager;
     }
 
     public void update() {
         if (uiManager != null) {
-            uiManager.onMouseMove(mouseX,mouseY);
+            uiManager.onMouseMove(mouseX, mouseY);
         }
     }
 
@@ -41,6 +42,13 @@ public class KeyInput implements KeyListener, MouseListener, MouseMotionListener
 
         if (e.getKeyCode() == KeyEvent.VK_D) {
             right = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+            up = true;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            down = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             space = true;
@@ -62,6 +70,13 @@ public class KeyInput implements KeyListener, MouseListener, MouseMotionListener
 
         if (e.getKeyCode() == KeyEvent.VK_D) {
             right = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_W) {
+            up = false;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_S) {
+            down = false;
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             space = false;
@@ -126,6 +141,22 @@ public class KeyInput implements KeyListener, MouseListener, MouseMotionListener
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         wheelMovePom = e.getPreciseWheelRotation();
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public boolean isDown() {
+        return down;
     }
 
     public boolean isLeftMouse() {

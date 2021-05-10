@@ -21,11 +21,11 @@ public class RenderLayer extends Canvas implements Runnable {
     public RenderLayer() {
         this.setSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         keyInput = new KeyInput();
-        testingScreen = new TestingScreen(keyInput, this);
         newGame();
-
-
         State.setState(game);
+        testingScreen = new TestingScreen(keyInput, this);
+
+
         this.addKeyListener(keyInput);
         this.addMouseListener(keyInput);
         this.addMouseMotionListener(keyInput);
@@ -112,6 +112,10 @@ public class RenderLayer extends Canvas implements Runnable {
 
     public int getWINDOW_HEIGHT() {
         return WINDOW_HEIGHT;
+    }
+
+    public KeyInput getKeyInput() {
+        return keyInput;
     }
 
     public State getGame() {

@@ -35,13 +35,17 @@ public class MapEditor {
 
     private void checkForOutOfBounds() {
         if (keyInput.getMouseX() < renderLayer.getWINDOW_WIDTH() - 290) {
-            blockCoordinateX = keyInput.getMouseX() / world.getTILE_WIDTH();
+            blockCoordinateX = (keyInput.getMouseX() +
+                    (int) renderLayer.getGame().getGame().getWorld().getGameCamera().getxOffset()) /
+                    world.getTILE_WIDTH();
         } else {
             outOfBounds = true;
         }
 
         if (keyInput.getMouseY() < renderLayer.getWINDOW_HEIGHT() - 10) {
-            blockCoordinateY = keyInput.getMouseY() / world.getTILE_HEIGHT();
+            blockCoordinateY = (keyInput.getMouseY() +
+                    (int) renderLayer.getGame().getGame().getWorld().getGameCamera().getyOffset()) /
+                    world.getTILE_HEIGHT();
         } else {
             outOfBounds = true;
         }
@@ -67,7 +71,11 @@ public class MapEditor {
     public void render(Graphics g) {
         if (!outOfBounds) {
             g.setColor(Color.ORANGE);
-            g.drawRect(blockCoordinateX * world.getTILE_WIDTH(), blockCoordinateY * world.getTILE_HEIGHT(), world.getTILE_WIDTH(), world.getTILE_HEIGHT());
+            g.drawRect(blockCoordinateX * world.getTILE_WIDTH()
+                            - (int) renderLayer.getGame().getGame().getWorld().getGameCamera().getxOffset(),
+                    blockCoordinateY * world.getTILE_HEIGHT()
+                            - (int) renderLayer.getGame().getGame().getWorld().getGameCamera().getyOffset(),
+                    world.getTILE_WIDTH(), world.getTILE_HEIGHT());
         }
     }
 
