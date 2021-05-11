@@ -29,4 +29,5 @@ public class Player extends Entity {
     public void render(Graphics g) {
         g.drawImage(Assets.playerRight[0], getX() -(int) getGame().getWorld().getGameCamera().getxOffset(), getY()-(int) getGame().getWorld().getGameCamera().getyOffset(), 64, 64, null);
     }
+
 }

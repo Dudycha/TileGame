@@ -26,7 +26,7 @@ public class Game extends State {
         Assets.init();
         this.keyInput = keyInput;
         world = new World(keyInput, renderLayer);
-        player = new Player(renderLayer, this, 120, 100);
+        player = new Player(renderLayer, this, 0, 0);
         uiManager = new UIManager();
         keyInput.setUIManager(uiManager);
 

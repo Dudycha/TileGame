@@ -33,7 +33,7 @@ public class TestingScreen {
         uiManager.addObject(new UIImageButton(1020, 130, 64, 32, Assets.saveBtn, new ClickListener() {
             @Override
             public void onClick() {
-                renderLayer.getGame().getGame().getWorld().saveMap();
+                renderLayer.getGame().getGame().getWorld().getSqlManager().saveMap();
             }
         }));
     }
@@ -60,13 +60,19 @@ public class TestingScreen {
         g.drawString("coordinate X: " + renderLayer.getGame().getGame().getWorld().getMapEditor().getblockCoordinateX(), 1020, 60);
         g.drawString("coordinate Y: " + renderLayer.getGame().getGame().getWorld().getMapEditor().getblockCoordinateY(), 1020, 75);
 
+        g.drawString("xOffset: " + renderLayer.getGame().getGame().getWorld().getGameCamera().getxOffset(), 1020, 95);
+        g.drawString("yOffset: " + renderLayer.getGame().getGame().getWorld().getGameCamera().getyOffset(), 1020, 110);
 
+
+        g.setColor(Color.RED);
+        g.drawString("starts & ends of map rendering", 1007, 200);
+        g.drawRect(1050,203,70,70);
         g.setColor(Color.green);
-        g.drawString("" + renderLayer.getGame().getGame().getWorld().getxStart(), 1050, 250);
-        g.drawString("" + renderLayer.getGame().getGame().getWorld().getxEnd(), 1100, 250);
+        g.drawString("" + renderLayer.getGame().getGame().getWorld().getxStart(), 1053, 243);
+        g.drawString("" + renderLayer.getGame().getGame().getWorld().getxEnd(), 1100, 243);
 
-        g.drawString("" + renderLayer.getGame().getGame().getWorld().getyStart(), 1075, 220);
-        g.drawString("" + renderLayer.getGame().getGame().getWorld().getyEnd(), 1075, 280);
+        g.drawString("" + renderLayer.getGame().getGame().getWorld().getyStart(), 1080, 218);
+        g.drawString("" + renderLayer.getGame().getGame().getWorld().getyEnd(), 1075, 270);
 
 
         uiManager.render(g);
